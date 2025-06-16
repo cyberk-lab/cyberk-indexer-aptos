@@ -1,0 +1,182 @@
+---
+description: "This rule defines standards for writing tests in the NestJS application. Apply this rule when writing tests for any feature. It ensures consistency in test structure, naming, setup, and API testing, referencing the `nestjs-architecture-agent.mdc` for overall application structure."
+globs: apps/nest/libs/**/*.spec.ts
+alwaysApply: false
+---
+# NestJS Testing Standards
+
+## Critical Rules
+
+- **Test Location:** Test files MUST be placed in `libs/{domain-name}/src/{domain-name}.spec.ts`.
+- **Test Context:**
+    - Use `TestContext` from `@app/spec/test.helper` to manage test setup and teardown.
+    - Always call `clean()` in `afterAll` to clean up test data.
+    - Use `generateAcount()` to create test users with proper context.
+- **Test Structure:**
+    - Each API endpoint should have its own `describe` block.
+    - Group related tests within each `describe` block.
+    - Use descriptive test names following the pattern: `{Action}:{Scenario}` (e.g., `Create:Success`, `Update:InvalidData`).
+- **Test Setup:**
+    - Use `beforeAll` for setup that can be shared across tests.
+    - Use `beforeEach` for setup that needs to be fresh for each test.
+    - Clean up test data in `afterAll` using `tc.clean()`.
+- **API Testing:**
+    - Test both successful and error cases.
+    - Use the custom matchers from `test.helper.ts`:
+        - `toBeOK()` for 200 responses
+        - `toBeCreated()` for 201 responses
+        - `toBeBad()` for 400 responses
+        - `toBe404()` for 404 responses
+        - `toBeUnauthorized()` for 401 responses
+- **Request Testing:**
+    - Use `uc.request()` for authenticated requests.
+    - Use `tc.request()` for unauthenticated requests.
+    - Test query parameters using `qs.stringify()` for complex queries.
+- **Data Validation:**
+    - Verify response data matches expected values.
+    - Test data transformations and entity relationships.
+    - Verify error messages for validation failures.
+
+## Examples
+
+<example>
+  ```typescript
+  // In libs/todo/src/todo.spec.ts
+  import { TestContext, testHelper, UserContextTestType } from '@app/spec/test.helper'
+  import { INestApplication } from '@nestjs/common'
+  import { PrismaService } from 'nestjs-prisma'
+  import { CreateTodoDto } from './dtos/create-todo.dto'
+  import { TodoModule } from './todo.module'
+  import qs from 'qs'
+  import { Todo } from '@prisma/client'
+  import { UpdateTodoDto } from './dtos/update-todo.dto'
+
+  describe('TodoSpec', () => {
+    let tc: TestContext
+    let app: INestApplication
+    let prismaService: PrismaService
+    let uc: UserContextTestType
+
+    beforeAll(async () => {
+      tc = await testHelper.createContext({
+        imports: [TodoModule],
+      })
+      app = tc.app
+      prismaService = app.get(PrismaService)
+      uc = await tc.generateAcount()
+    })
+
+    afterAll(async () => await tc?.clean())
+
+    describe('Create', () => {
+      test('Create:TitleIsRequired', async () => {
+        const res = await uc.request((r) => r.post('/todo')).send({} as CreateTodoDto)
+        expect(res).toBeBad(/title should not be empty/)
+      })
+
+      test('Create:Success', async () => {
+        const res = await uc.request((r) => r.post('/todo')).send({ title: 'Test Todo' } as CreateTodoDto)
+        expect(res).toBeCreated()
+        expect(res.body.title).toBe('Test Todo')
+      })
+    })
+
+    describe('Fetch', () => {
+      let todo: Todo
+      beforeAll(async () => {
+        const res = await uc.request((r) => r.post('/todo')).send({ title: 'Test Todo' } as CreateTodoDto)
+        todo = res.body
+      })
+
+      test('GetTodo', async () => {
+        const res = await uc.request((r) => r.get(`/todo/${todo.id}`))
+        expect(res).toBeOK()
+        expect(res.body.id).toBe(todo.id)
+      })
+
+      test('GetTodos', async () => {
+        const paramDto = {
+          where: {
+            id: { gt: 0 },
+            title: { startsWith: 'Test' },
+          },
+          include: ['profile'],
+          take: 3,
+        }
+        const param = qs.stringify(paramDto)
+        const res = await uc.request((r) => r.get(`/todo?${param}`))
+        expect(res).toBeOK()
+        expect(res.body.length).toBeGreaterThan(0)
+      })
+    })
+
+    describe('Update', () => {
+      let todo: Todo
+      beforeAll(async () => {
+        const res = await uc.request((r) => r.post('/todo')).send({ title: 'Test Todo' } as CreateTodoDto)
+        todo = res.body
+      })
+
+      test('Update:Success', async () => {
+        const res = await uc.request((r) => r.put(`/todo/${todo.id}`))
+          .send({ title: 'Updated Todo' } as UpdateTodoDto)
+        expect(res).toBeOK()
+        const newTodoRes = await uc.request((r) => r.get(`/todo/${todo.id}`))
+        expect(newTodoRes.body.title).toBe('Updated Todo')
+      })
+    })
+
+    describe('Delete', () => {
+      let todo: Todo
+      beforeAll(async () => {
+        const res = await uc.request((r) => r.post('/todo')).send({ title: 'Test Todo' } as CreateTodoDto)
+        todo = res.body
+      })
+
+      test('Delete:Success', async () => {
+        const res = await uc.request((r) => r.delete(`/todo/${todo.id}`))
+        expect(res).toBeOK()
+        const newTodoRes = await uc.request((r) => r.get(`/todo/${todo.id}`))
+        expect(newTodoRes).toBe404()
+      })
+    })
+  })
+  ```
+</example>
+
+<example type="invalid">
+  ```typescript
+  // Bad Example: Missing test context, improper cleanup, unstructured tests
+  import { Test } from '@nestjs/testing'
+  import { TodoModule } from './todo.module'
+  import { CreateTodoDto } from './dtos/create-todo.dto'
+
+  describe('Todo Tests', () => {
+    let app: INestApplication
+
+    beforeAll(async () => {
+      const moduleRef = await Test.createTestingModule({
+        imports: [TodoModule],
+      }).compile()
+      app = moduleRef.createNestApplication()
+      await app.init()
+    })
+
+    // Missing afterAll cleanup
+
+    test('should create todo', async () => {
+      // Missing user context
+      const res = await request(app.getHttpServer())
+        .post('/todo')
+        .send({ title: 'Test Todo' } as CreateTodoDto)
+      expect(res.status).toBe(201)
+    })
+
+    test('should get todos', async () => {
+      // Missing proper test structure and error cases
+      const res = await request(app.getHttpServer()).get('/todo')
+      expect(res.status).toBe(200)
+    })
+  })
+  ```
+</example>

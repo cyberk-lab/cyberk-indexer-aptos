@@ -3,7 +3,6 @@ description: "Defines the high-level architectural patterns and best practices f
 globs: apps/nest/**/*.*
 alwaysApply: false
 ---
-
 # NestJS Project Architecture Standards
 
 ## Core Principles
@@ -26,9 +25,10 @@ alwaysApply: false
         - Encapsulates a specific business domain.
         - Contains `src/` directory with:
             - `*.module.ts`: Defines the NestJS module for the domain, importing controllers, providers, and potentially other domain modules.
-            - `*.controller.ts`: Handles HTTP requests, delegates to services. (See `nestjs-controller-v2-agent.mdc`)
-            - `*.service.ts`: Contains business logic and interacts with Prisma. (See `nestjs-service-v2-agent.mdc`)
-            - `entities/*.entity.ts`: Defines response shapes and transformer/Swagger metadata. (See `nestjs-entity-v2-agent.mdc`)
+            - `*.controller.ts`: Handles HTTP requests, delegates to services. (See `nestjs-controller-agent.mdc`)
+            - `*.service.ts`: Contains business logic and interacts with Prisma. (See `nestjs-service-agent.mdc`)
+            - `*.spec.ts`: Contains tests for the feature. (See `nestjs-testing-agent.mdc`)
+            - `entities/*.entity.ts`: Defines response shapes and transformer/Swagger metadata. (See `nestjs-entity-agent.mdc`)
             - `dtos/*.dto.ts`: Defines Data Transfer Objects with validation rules. (See `nestjs-dto-agent.mdc`)
             - Potentially other domain-specific components (guards, helpers).
     - **`libs/core/`**: Contains application-wide, NestJS-specific building blocks.
@@ -57,12 +57,12 @@ alwaysApply: false
     - `libs/core` can depend on `libs/helper`.
     - `libs/helper` MUST NOT depend on any other `libs/*` or `apps/*`.
 - **Configuration:** Use environment variables (`.env.*`) managed according to environment (`dev`, `spec`, etc.) and loaded via NestJS `ConfigModule` (likely configured in `apps/nest/src/app.module.ts` or `libs/core`).
-- **Testing Strategy:** Prioritize end-to-end (e2e) or integration tests that interact with the application at the controller level, simulating real API requests. These tests typically reside in the `test/` directory within the corresponding domain library (e.g., `libs/{domain-name}/test/{domain-name}.e2e-spec.ts`). While unit tests for complex helpers or utilities are acceptable, the main focus for feature testing is at the API boundary.
+- **Testing Strategy:** Prioritize end-to-end (e2e) or integration tests that interact with the application at the controller level, simulating real API requests. These tests should be placed in `libs/{domain-name}/src/{domain-name}.spec.ts`. While unit tests for complex helpers or utilities are acceptable, the main focus for feature testing is at the API boundary.
 
 ## Example Module Structure (`libs/todo/`)
 
 ```plaintext
-l libs/todo/
+  libs/todo/
   ├── src/
   │   ├── dtos/
   │   │   ├── create-todo.dto.ts
@@ -72,8 +72,7 @@ l libs/todo/
   │   │   └── todo.entity.ts
   │   ├── todo.controller.ts
   │   ├── todo.module.ts
-  │   └── todo.service.ts
-  ├── test/
-  │   └── todo.e2e-spec.ts
+  │   ├── todo.service.ts
+  │   └── todo.spec.ts
   └── tsconfig.lib.json
 ``` 
