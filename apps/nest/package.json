@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@keyv/redis": "^4.2.0",
+    "@neondatabase/api-client": "^2.0.0",
     "@nestjs/cache-manager": "^3.0.0-next.0",
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
@@ -60,11 +61,13 @@
     "nestjs-prisma": "^0.24.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
+    "pg": "^8.16.2",
     "purest": "^4.0.3",
     "qs": "^6.14.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
     "swagger-ui-dist": "^5.18.3",
+    "typeorm": "^0.3.25",
     "validator": "^13.12.0"
   },
   "devDependencies": {
@@ -151,7 +154,10 @@
       "^@app/spec(|/.*)$": "<rootDir>/libs/spec/src/$1",
       "^@app/helper(|/.*)$": "<rootDir>/libs/helper/src/$1",
       "^@app/todo(|/.*)$": "<rootDir>/libs/todo/src/$1",
-      "^@app/post(|/.*)$": "<rootDir>/libs/post/src/$1"
+      "^@app/post(|/.*)$": "<rootDir>/libs/post/src/$1",
+      "^@app/organization(|/.*)$": "<rootDir>/libs/organization/src/$1",
+      "^@app/indexer(|/.*)$": "<rootDir>/libs/indexer/src/$1",
+      "^@app/neon(|/.*)$": "<rootDir>/libs/neon/src/$1"
     }
   }
 }

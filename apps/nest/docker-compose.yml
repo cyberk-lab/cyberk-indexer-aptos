@@ -24,3 +24,12 @@ services:
     environment:
       CLUSTER_ONLY: true
       IP: 0.0.0.0
+  clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    container_name: clickhouse
+    ports:
+      - "8123:8123"
+    environment:
+      CLICKHOUSE_USER: cyberk
+      CLICKHOUSE_PASSWORD: cyberk
+      CLICKHOUSE_DB: cyberk

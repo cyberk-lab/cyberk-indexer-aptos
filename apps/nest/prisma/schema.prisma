@@ -124,18 +124,17 @@ model OrganizationMember {
 
 model Indexer {
   id BigInt @id @default(autoincrement())
+  name String
 
   organizationId BigInt
-
-  neonProjectId String
-  neonBranchId String
-  neonDbName String
+  databaseId Int? @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   organization Organization @relation(fields: [organizationId], references: [id])
   contracts IndexerContract[]
+  database NeonDatabase? @relation(fields: [databaseId], references: [id])
 }
 
 model Contract {
@@ -157,4 +156,56 @@ model IndexerContract {
   contract Contract @relation(fields: [contractAddress], references: [address])
 
   @@id([indexerId, contractAddress])
+}
+
+model NeonConfig {
+  id BigInt @id
+  projectCount Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  currentProjectId String? @unique
+  currentProject NeonProject? @relation(fields: [currentProjectId], references: [id])
+}
+
+model NeonProject {
+  id String @id
+  branchCount Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  currentBranchId String? @unique
+  currentBranch NeonBranch? @relation(fields: [currentBranchId], references: [id], name: "currentBranch")
+
+  branches NeonBranch[]
+  config NeonConfig?
+}
+
+model NeonBranch {
+  id String @id
+  databaseCount Int @default(0)
+  projectId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  project NeonProject @relation(fields: [projectId], references: [id])
+  activeProject NeonProject? @relation(name: "currentBranch")
+
+  databases NeonDatabase[]
+
+}
+
+model NeonDatabase {
+  id Int @id
+
+  branchId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  branch NeonBranch @relation(fields: [branchId], references: [id])
+  indexer Indexer?
 }

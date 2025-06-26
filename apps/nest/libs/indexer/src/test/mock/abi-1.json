@@ -1,0 +1,283 @@
+{
+    "address": "0x506d2171d9a65c8738f0465902e54d6971017d4398e501dca15f443070b1c2f7",
+    "name": "bonding_curve",
+    "friends": [],
+    "exposed_functions": [
+        {
+            "name": "create_fa_pair",
+            "visibility": "public",
+            "is_entry": true,
+            "is_view": false,
+            "generic_type_params": [],
+            "params": [
+                "&signer",
+                "u64",
+                "0x1::string::String",
+                "0x1::string::String",
+                "0x1::string::String",
+                "0x1::string::String"
+            ],
+            "return": []
+        },
+        {
+            "name": "get_balance",
+            "visibility": "public",
+            "is_entry": false,
+            "is_view": true,
+            "generic_type_params": [],
+            "params": [
+                "0x1::string::String",
+                "0x1::string::String",
+                "address"
+            ],
+            "return": [
+                "u64"
+            ]
+        },
+        {
+            "name": "get_fa_obj_address",
+            "visibility": "public",
+            "is_entry": false,
+            "is_view": true,
+            "generic_type_params": [],
+            "params": [
+                "0x1::string::String",
+                "0x1::string::String"
+            ],
+            "return": [
+                "address"
+            ]
+        },
+        {
+            "name": "get_metadata",
+            "visibility": "public",
+            "is_entry": false,
+            "is_view": true,
+            "generic_type_params": [],
+            "params": [
+                "0x1::string::String",
+                "0x1::string::String"
+            ],
+            "return": [
+                "0x1::object::Object<0x1::fungible_asset::Metadata>"
+            ]
+        },
+        {
+            "name": "swap_exact_in",
+            "visibility": "public",
+            "is_entry": true,
+            "is_view": false,
+            "generic_type_params": [],
+            "params": [
+                "&signer",
+                "0x1::string::String",
+                "0x1::string::String",
+                "bool",
+                "u64",
+                "u64"
+            ],
+            "return": []
+        },
+        {
+            "name": "swap_exact_out",
+            "visibility": "public",
+            "is_entry": true,
+            "is_view": false,
+            "generic_type_params": [],
+            "params": [
+                "&signer",
+                "0x1::string::String",
+                "0x1::string::String",
+                "bool",
+                "u64",
+                "u64"
+            ],
+            "return": []
+        }
+    ],
+    "structs": [
+        {
+            "name": "EventTest",
+            "is_native": false,
+            "is_event": true,
+            "abilities": [
+                "drop",
+                "store"
+            ],
+            "generic_type_params": [],
+            "fields": [
+                {
+                    "name": "number_u8_option",
+                    "type": "0x1::option::Option<u8>"
+                },
+                {
+                    "name": "number_u8_some",
+                    "type": "0x1::option::Option<u8>"
+                },
+                {
+                    "name": "number_u16_option",
+                    "type": "0x1::option::Option<u16>"
+                },
+                {
+                    "name": "number_u16_some",
+                    "type": "0x1::option::Option<u16>"
+                },
+                {
+                    "name": "number_u64_option",
+                    "type": "0x1::option::Option<u64>"
+                },
+                {
+                    "name": "number_u64_some",
+                    "type": "0x1::option::Option<u64>"
+                },
+                {
+                    "name": "string_option",
+                    "type": "0x1::option::Option<0x1::string::String>"
+                },
+                {
+                    "name": "string_some",
+                    "type": "0x1::option::Option<0x1::string::String>"
+                },
+                {
+                    "name": "address_option",
+                    "type": "0x1::option::Option<address>"
+                },
+                {
+                    "name": "address_some",
+                    "type": "0x1::option::Option<address>"
+                },
+                {
+                    "name": "vector_option",
+                    "type": "0x1::option::Option<vector<u8>>"
+                },
+                {
+                    "name": "vector_some",
+                    "type": "0x1::option::Option<vector<u8>>"
+                },
+                {
+                    "name": "string_test",
+                    "type": "0x1::string::String"
+                },
+                {
+                    "name": "number_u8",
+                    "type": "u8"
+                },
+                {
+                    "name": "number_u16",
+                    "type": "u16"
+                },
+                {
+                    "name": "number_u32",
+                    "type": "u32"
+                },
+                {
+                    "name": "number_u64",
+                    "type": "u64"
+                },
+                {
+                    "name": "number_u128",
+                    "type": "u128"
+                },
+                {
+                    "name": "number_u256",
+                    "type": "u256"
+                },
+                {
+                    "name": "bool_test",
+                    "type": "bool"
+                },
+                {
+                    "name": "address_test",
+                    "type": "address"
+                },
+                {
+                    "name": "object_test",
+                    "type": "0x1::object::Object<0x1::fungible_asset::Metadata>"
+                },
+                {
+                    "name": "vector_test",
+                    "type": "vector<u8>"
+                },
+                {
+                    "name": "vector2_test",
+                    "type": "vector<0x1::object::Object<0x1::fungible_asset::Metadata>>"
+                }
+            ]
+        },
+        {
+            "name": "FAController",
+            "is_native": false,
+            "is_event": false,
+            "abilities": [
+                "store",
+                "key"
+            ],
+            "generic_type_params": [],
+            "fields": [
+                {
+                    "name": "transfer_ref",
+                    "type": "0x1::fungible_asset::TransferRef"
+                }
+            ]
+        },
+        {
+            "name": "FungibleAssetCreated",
+            "is_native": false,
+            "is_event": true,
+            "abilities": [
+                "drop",
+                "store"
+            ],
+            "generic_type_params": [],
+            "fields": [
+                {
+                    "name": "name",
+                    "type": "0x1::string::String"
+                },
+                {
+                    "name": "symbol",
+                    "type": "0x1::string::String"
+                },
+                {
+                    "name": "icon_uri",
+                    "type": "0x1::string::String"
+                },
+                {
+                    "name": "project_uri",
+                    "type": "0x1::string::String"
+                },
+                {
+                    "name": "fa_address",
+                    "type": "address"
+                },
+                {
+                    "name": "creator",
+                    "type": "address"
+                }
+            ]
+        },
+        {
+            "name": "LaunchPad",
+            "is_native": false,
+            "is_event": false,
+            "abilities": [
+                "key"
+            ],
+            "generic_type_params": [],
+            "fields": [
+                {
+                    "name": "permissioned_withdraw",
+                    "type": "0x1::function_info::FunctionInfo"
+                },
+                {
+                    "name": "permissioned_deposit",
+                    "type": "0x1::function_info::FunctionInfo"
+                },
+                {
+                    "name": "fa_generator_extend_ref",
+                    "type": "0x1::object::ExtendRef"
+                }
+            ]
+        }
+    ]
+}

@@ -66,6 +66,24 @@
       ],
       "@app/todo/*": [
         "libs/todo/src/*"
+      ],
+      "@app/organization": [
+        "libs/organization/src"
+      ],
+      "@app/organization/*": [
+        "libs/organization/src/*"
+      ],
+      "@app/indexer": [
+        "libs/indexer/src"
+      ],
+      "@app/indexer/*": [
+        "libs/indexer/src/*"
+      ],
+      "@app/neon": [
+        "libs/neon/src"
+      ],
+      "@app/neon/*": [
+        "libs/neon/src/*"
       ]
     }
   }

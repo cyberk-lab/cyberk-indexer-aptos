@@ -44,6 +44,7 @@ expect.extend({
   toBeCreated: (res: request.Response) => buildExpectStatus(res, HttpStatus.CREATED),
   toBe404: (res: request.Response) => buildExpectStatus(res, HttpStatus.NOT_FOUND),
   toBeUnauthorized: (res: request.Response) => buildExpectStatus(res, HttpStatus.UNAUTHORIZED),
+  toBeForbidden: (res: request.Response) => buildExpectStatus(res, HttpStatus.FORBIDDEN),
 })
 
 declare global {
@@ -55,6 +56,7 @@ declare global {
       toBe404(): R
       toBeBad(message: string | RegExp): R
       toBeUnauthorized(): R
+      toBeForbidden(): R
     }
   }
 }
@@ -140,6 +142,9 @@ export class TestContext {
         where: { id: res.body.user.id },
         data: { confirmed: true, verifyCode: null },
       })
+    }
+    if (options.role === Role.ADMIN) {
+      await this.promoteAdmin(res.body.user.id)
     }
     let userContext = this.buildUserContext(res.body)
     if (options.initProfile) {

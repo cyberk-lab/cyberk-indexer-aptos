@@ -101,6 +101,33 @@
       "compilerOptions": {
         "tsConfigPath": "libs/todo/tsconfig.lib.json"
       }
+    },
+    "organization": {
+      "type": "library",
+      "root": "libs/organization",
+      "entryFile": "index",
+      "sourceRoot": "libs/organization/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/organization/tsconfig.lib.json"
+      }
+    },
+    "indexer": {
+      "type": "library",
+      "root": "libs/indexer",
+      "entryFile": "index",
+      "sourceRoot": "libs/indexer/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/indexer/tsconfig.lib.json"
+      }
+    },
+    "neon": {
+      "type": "library",
+      "root": "libs/neon",
+      "entryFile": "index",
+      "sourceRoot": "libs/neon/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/neon/tsconfig.lib.json"
+      }
     }
   }
 }

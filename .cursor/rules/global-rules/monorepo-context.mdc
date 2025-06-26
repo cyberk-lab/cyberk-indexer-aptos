@@ -1,0 +1,67 @@
+---
+description: This rule is used to identify the target application in the monorepo.
+globs:
+alwaysApply: false
+---
+# Monorepo Context and Application Identification Guide
+
+## Critical Rules
+
+1. **Project Structure Understanding**
+   - Project follows monorepo architecture
+   - `/apps` directory contains distinct application projects
+   - Each application has unique purpose and responsibilities
+   - `/apps/nest` project uses monorepo mode
+
+2. **Application Identification**
+   - Analyze user queries to determine target application
+   - Look for context clues in:
+     - File paths mentioned
+     - Application-specific terminology
+     - Related features or functionality
+   - Must confirm target application with user before:
+     - Generating code
+     - Creating new files
+     - Making structural changes
+
+3. **NestJS Project Considerations**
+   - Use appropriate NestJS CLI commands for monorepo mode
+   - Follow NestJS monorepo best practices
+   - Maintain proper module boundaries
+   - Consider shared library dependencies
+
+## Implementation Process
+
+1. **Context Analysis**
+   - Review user's request
+   - Identify potential target application
+   - Gather relevant context from workspace
+
+2. **User Confirmation**
+   - Present identified application to user
+   - Wait for explicit confirmation
+   - Proceed only after confirmation
+
+3. **Action Execution**
+   - Use appropriate tools for confirmed application
+   - Follow application-specific patterns
+   - Maintain monorepo structure integrity
+
+## Examples
+
+<example>
+User: "I want to add a new API endpoint for user authentication"
+Action:
+1. Analyze request for context
+2. Identify potential target application (e.g., `/apps/nest`)
+3. Confirm with user: "I understand you want to add this to the NestJS application. Is this correct?"
+4. Proceed with implementation after confirmation
+</example>
+
+<example type="invalid">
+User: "Add a new feature for user management"
+Action: Immediately implementing without:
+- Identifying target application
+- Confirming with user
+- Considering monorepo structure
+</example>

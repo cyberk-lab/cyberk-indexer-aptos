@@ -1,0 +1,56 @@
+{
+  "bool_test": true,
+  "number_u8": 1,
+  "number_u16": 2,
+  "number_u32": 3,
+  "number_u64": "4",
+  "number_u128": "5",
+  "number_u256": "6",
+  "object_test": {
+    "inner": "0xa99d97a46bcab24693287461b9fd5e7999974a4ca8687e6dd4b739c73da5a240"
+  },
+  "string_some": {
+    "vec": ["test"]
+  },
+  "string_test": "test",
+  "vector_some": {
+    "vec": ["0x01"]
+  },
+  "vector_test": "0x01",
+  "address_some": {
+    "vec": ["0x87226b5a21c277f5569fb89c703da8738bd7681057fcbc5f3693553f0c082e11"]
+  },
+  "address_test": "0x87226b5a21c277f5569fb89c703da8738bd7681057fcbc5f3693553f0c082e11",
+  "vector2_test": [
+    {
+      "inner": "0xa99d97a46bcab24693287461b9fd5e7999974a4ca8687e6dd4b739c73da5a240"
+    }
+  ],
+  "string_option": {
+    "vec": []
+  },
+  "vector_option": {
+    "vec": []
+  },
+  "address_option": {
+    "vec": []
+  },
+  "number_u8_some": {
+    "vec": "0x01"
+  },
+  "number_u16_some": {
+    "vec": [2]
+  },
+  "number_u64_some": {
+    "vec": ["3"]
+  },
+  "number_u8_option": {
+    "vec": "0x"
+  },
+  "number_u16_option": {
+    "vec": []
+  },
+  "number_u64_option": {
+    "vec": []
+  }
+}

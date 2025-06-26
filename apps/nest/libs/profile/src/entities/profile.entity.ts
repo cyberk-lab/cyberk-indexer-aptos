@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { Profile, Role } from '@prisma/client'
 import { Expose } from 'class-transformer'
-import { IsEmail } from 'class-validator'
 
 export class ProfileEntity implements Profile {
   @Expose()
