@@ -128,6 +128,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/neon/tsconfig.lib.json"
       }
+    },
+    "aptos": {
+      "type": "library",
+      "root": "libs/aptos",
+      "entryFile": "index",
+      "sourceRoot": "libs/aptos/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/aptos/tsconfig.lib.json"
+      }
     }
   }
 }

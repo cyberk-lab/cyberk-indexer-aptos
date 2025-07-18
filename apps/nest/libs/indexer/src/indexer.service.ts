@@ -353,6 +353,43 @@ export class IndexerService {
     await runner.createForeignKey('aiptos_user_token', AiptosUserTokenUserAddressForeignKey)
     await runner.createForeignKey('aiptos_user_token', AiptosUserTokenTokenAddressForeignKey)
     await runner.createForeignKey('token_swap_stats', TokenSwapStatsAddressForeignKey)
+
+    const queryBuilder = PostgresDataSource.createQueryBuilder()
+    await PostgresDataSource.transaction(async (manager) => {
+      const qb = manager.createQueryBuilder()
+      qb.insert()
+        .into('aiptos_token')
+        .values([
+          {
+            address: '0x0000000000000000000000000000000000000000',
+            creator: '0x0000000000000000000000000000000000000000',
+          },
+        ])
+        .execute()
+    })
+    await queryBuilder
+      .insert()
+      .into('aiptos_token')
+      .values([
+        {
+          address: '0x0000000000000000000000000000000000000000',
+          creator: '0x0000000000000000000000000000000000000000',
+        },
+      ])
+      .orUpdate({
+        columns: ['creator'],
+        overwrite: true,
+      })
+      .execute()
+    const x = queryBuilder
+      .update('aiptos_token')
+      .set({
+        creator: '0x0000000000000000000000000000000000000000',
+      })
+      .where({
+        address: '0x0000000000000000000000000000000000000000',
+      })
+      .execute()
   }
 
   async promptEventsToTables(events: any) {

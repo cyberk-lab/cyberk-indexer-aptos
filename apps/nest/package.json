@@ -157,7 +157,8 @@
       "^@app/post(|/.*)$": "<rootDir>/libs/post/src/$1",
       "^@app/organization(|/.*)$": "<rootDir>/libs/organization/src/$1",
       "^@app/indexer(|/.*)$": "<rootDir>/libs/indexer/src/$1",
-      "^@app/neon(|/.*)$": "<rootDir>/libs/neon/src/$1"
+      "^@app/neon(|/.*)$": "<rootDir>/libs/neon/src/$1",
+      "^@app/aptos(|/.*)$": "<rootDir>/libs/aptos/src/$1"
     }
   }
 }

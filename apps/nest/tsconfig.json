@@ -84,6 +84,12 @@
       ],
       "@app/neon/*": [
         "libs/neon/src/*"
+      ],
+      "@app/aptos": [
+        "libs/aptos/src"
+      ],
+      "@app/aptos/*": [
+        "libs/aptos/src/*"
       ]
     }
   }

@@ -25,7 +25,7 @@ export function AuthenticatedLayout({ children }: Props) {
             'peer-data-[state=expanded]:w-[calc(100%-var(--sidebar-width))]',
             'sm:transition-[width] sm:duration-200 sm:ease-linear',
             'flex h-svh flex-col',
-            'group-data-[scroll-locked=1]/body:h-full',
+            // 'group-data-[scroll-locked=1]/body:h-full',
             'has-[main.fixed-main]:group-data-[scroll-locked=1]/body:h-svh'
           )}
         >
