@@ -1,7 +1,8 @@
 import React, { JSX } from 'react'
 import { Handle, Position, useReactFlow, useStoreApi } from '@xyflow/react'
 import cc from 'classcat'
-import { EventData } from '../../types/event.node'
+import { EventData, EventColumn } from '../../types/event.node'
+import { NODE_SIZES, calculateNodeHeight } from '../../constants/node-sizes'
 // import styles from "./Node.module.scss";
 import { enumEdgeTargetHandleId } from '../../util/util'
 
@@ -16,62 +17,46 @@ import { enumEdgeTargetHandleId } from '../../util/util'
 
 // const isRelationed = ({ relationData }: ColumnData) => !!relationData?.side;
 
-const EventNode = ({ data }: NodeBase) => {
+const EventNode = ({ data }: EventNodeProps) => {
   const store = useStoreApi()
   const { setCenter, getZoom } = useReactFlow()
 
-  return (
-    <div className='border-separate rounded-lg border-2 border-black bg-white font-sans'>
-      <table style={{ minWidth: 200, maxWidth: 500, borderSpacing: 0 }}>
-        <thead>
-          <tr>
-            <th
-              className='rounded-t-md border-b-2 border-black bg-gray-200 p-2 font-extrabold'
-              colSpan={4}
-            >
-              {data.name}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.columns.map((col) => {
-            //   const reled = isRelationed(col);
-            //   let targetHandle: JSX.Element | null = null;
-            //   let sourceHandle: JSX.Element | null = null;
+  const nodeHeight = calculateNodeHeight('EVENT', data.columns.length)
 
-            return (
-              <tr key={col.name}>
-                <td className='border-t-2 border-r-2 border-gray-300 font-mono font-semibold'>
-                  <button
-                    type='button'
-                    className={cc([
-                      'relative',
-                      'p-2',
-                      // { "cursor-pointer": reled },
-                    ])}
-                    onClick={() => {
-                      // if (!reled) return;
-                      // focusNode(col.type);
-                    }}
-                  >
-                    {col.name}
-                    {/* {targetHandle} */}
-                  </button>
-                </td>
-                <td className='border-t-2 border-r-2 border-gray-300 p-2 font-mono'>
-                  {col.displayType}
-                </td>
-                <td className='border-t-2 border-gray-300 font-mono'>
-                  <div className='relative p-2'>
-                    {/* {col.defaultValue || ""}
-                  {sourceHandle} */}
-                  </div>
-                </td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
+  return (
+    <div 
+      className='rounded-xl border border-gray-200/50 bg-white/80 backdrop-blur-sm shadow-lg font-sans overflow-hidden'
+      style={{ 
+        width: NODE_SIZES.EVENT.WIDTH,
+        height: nodeHeight,
+      }}
+    >
+      <div className='bg-gradient-to-r from-blue-500/90 to-purple-500/90 p-3'>
+        <h3 className='text-white font-semibold text-sm truncate'>
+          {data.name}
+        </h3>
+      </div>
+      
+      <div className='p-2 space-y-1'>
+        {data.columns.map((col: EventColumn, index: number) => (
+          <div 
+            key={col.name}
+            className='flex items-center justify-between p-2 rounded-lg bg-gray-50/60 hover:bg-gray-100/80 transition-colors duration-200'
+          >
+            <div className='flex-1 min-w-0'>
+              <div className='text-sm font-medium text-gray-900 truncate'>
+                {col.name}
+              </div>
+            </div>
+            
+            <div className='flex items-center space-x-2 ml-3'>
+              <span className='text-xs font-mono text-gray-600 bg-gray-200/70 px-2 py-1 rounded'>
+                {col.displayType}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
       <Handle type='source' position={Position.Right} />
     </div>
   )

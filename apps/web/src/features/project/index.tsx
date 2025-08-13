@@ -18,6 +18,7 @@ export default function Project() {
   // const events = useMemo(() => extractEventsFromAptosModules(aptosModules || []), [aptosModules])
 
   const startIndexing = useCallback(() => {
+    console.log('startIndexing=', inputAddress)
     setTargetAddress(inputAddress)
   }, [inputAddress])
 

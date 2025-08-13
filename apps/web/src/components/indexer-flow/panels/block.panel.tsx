@@ -10,9 +10,13 @@ type BlockPanelProps = {
 const BlockPanel = ({ onDragStart, className }: BlockPanelProps) => {
   const blocks: BlockConfig[] = [
     {
-      key: 'event-stream',
+      key: 'stream',
       text: 'Event Stream',
     },
+    {
+      key: 'table',
+      text: 'Indexed Table',
+    }
   ]
   const blockRefs = useRef<{ [key: string]: HTMLDivElement }>({})
   return (

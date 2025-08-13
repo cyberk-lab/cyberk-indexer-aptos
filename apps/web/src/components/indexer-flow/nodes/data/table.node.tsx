@@ -17,6 +17,7 @@ import { enumEdgeTargetHandleId } from '../../util/util'
 // const isRelationed = ({ relationData }: ColumnData) => !!relationData?.side;
 
 const TableNode = ({ data }: TableNodeProps) => {
+  console.log('TableNode', data)
   const store = useStoreApi()
   const { setCenter, getZoom } = useReactFlow()
 
@@ -38,7 +39,7 @@ const TableNode = ({ data }: TableNodeProps) => {
   //   };
 
   return (
-    <div className='border-separate rounded-lg border-2 border-black bg-white font-sans'>
+    <div className='border-separate rounded-lg border-2 border-black bg-white font-sans min-h-[200px] min-w-[200px]'>
       <table style={{ minWidth: 200, maxWidth: 500, borderSpacing: 0 }}>
         <thead>
           <tr>
@@ -51,7 +52,7 @@ const TableNode = ({ data }: TableNodeProps) => {
           </tr>
         </thead>
         <tbody>
-          {data.columns.map((col) => {
+          {data?.columns && data.columns.map((col) => {
             //   const reled = isRelationed(col);
             //   let targetHandle: JSX.Element | null = null;
             //   let sourceHandle: JSX.Element | null = null;

@@ -1,4 +1,4 @@
-import React, { JSX, useState } from 'react'
+import React, { JSX, memo, useState } from 'react'
 import { Handle, Position } from '@xyflow/react'
 import cc from 'classcat'
 import { EventData } from '../../types/event.node'
@@ -106,4 +106,4 @@ export function EventFieldSelector({ values, selected, onChange }: { values: str
     )
   }
 
-export default StreamQueryNode
+export default memo(StreamQueryNode)

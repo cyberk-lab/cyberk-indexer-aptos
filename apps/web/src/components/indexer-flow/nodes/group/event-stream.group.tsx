@@ -1,6 +1,8 @@
 import { forwardRef, HTMLAttributes, memo } from 'react'
 import { Handle, NodeResizeControl, Position, Node, useNodeConnections } from '@xyflow/react'
 import { BlockConfig } from '../../types/block.config'
+import { useEventNodes } from '../../hooks/use-event-nodes'
+import { useTableNodes } from '../../hooks/use-table-nodes'
 
 
 
@@ -9,6 +11,10 @@ const EventStreamGroup = forwardRef<
   HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
   const nodeProps = props as Node<BlockConfig>
+
+  const { events, eventNodes } = useEventNodes()
+  const { tables, tableNodes } = useTableNodes()
+
   const inputConnections = useNodeConnections({id: nodeProps.id, handleId: 'input'})
   const outputConnections = useNodeConnections({id: nodeProps.id, handleId: 'output'})
   return (
@@ -58,7 +64,18 @@ const EventStreamGroup = forwardRef<
         className={`w-full h-full bg-card text-card-foreground border-border relative rounded-lg border px-3 py-2 transition-all duration-200 hover:shadow-md`}
         ref={ref}
         // {...props}
-      ></div>
+      >
+        <div className='flex flex-col gap-2'>
+          {events.map((event) => (
+            <div key={event.name}>{event.name}</div>
+          ))}
+        </div>
+        <div className='flex flex-col gap-2'>
+          {tables.map((table) => (
+            <div key={table.name}>{table.name}</div>
+          ))}
+        </div>
+      </div>
     </>
   )
 })
