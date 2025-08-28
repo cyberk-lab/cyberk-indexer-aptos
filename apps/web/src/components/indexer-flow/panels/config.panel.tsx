@@ -11,13 +11,13 @@ const Configs = {
 
 const ConfigPanel = () => {
   const selectedNode = useIndexerFlowContext(s => s.selectedNode)
-  console.log('selectedNode', selectedNode?.type)
+  console.log('selectedNode', selectedNode)
   const ConfigComponent = selectedNode ? Configs[selectedNode?.type as keyof typeof Configs] : null
   return (
     <>
       <div>ConfigPanel</div>
       <Suspense fallback={<div>Loading...</div>}>
-        {ConfigComponent && <ConfigComponent />}
+        {ConfigComponent && selectedNode && <ConfigComponent node={selectedNode} />}
       </Suspense>
     </>
   )

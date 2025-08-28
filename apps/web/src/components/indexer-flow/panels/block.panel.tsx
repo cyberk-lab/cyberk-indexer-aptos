@@ -19,6 +19,7 @@ const BlockPanel = ({ onDragStart, className }: BlockPanelProps) => {
     }
   ]
   const blockRefs = useRef<{ [key: string]: HTMLDivElement }>({})
+  
   return (
     <div className={cn('space-y-2', className)}>
       {blocks.map((block) => (
@@ -32,8 +33,18 @@ const BlockPanel = ({ onDragStart, className }: BlockPanelProps) => {
           }}
           onDragStart={(e) => {
               const bounds = blockRefs.current[block.key].getBoundingClientRect()
-              console.log('onDragStart', { bounds, e })
-              return onDragStart(e, {...block, diffX: bounds.x - e.clientX, diffY: bounds.y - e.clientY});
+              const diffX = bounds.x - e.clientX
+              const diffY = bounds.y - e.clientY
+              
+              // Set the data transfer format for React Flow
+              e.dataTransfer.setData('application/reactflow', JSON.stringify({
+                ...block,
+                diffX,
+                diffY,
+              }))
+              
+              console.log('onDragStart', { bounds, diffX, diffY, block })
+              onDragStart(e, {...block, diffX, diffY})
           }}
           className='border-border bg-card hover:bg-accent cursor-grab rounded-md border p-3 transition-colors active:cursor-grabbing'
         >

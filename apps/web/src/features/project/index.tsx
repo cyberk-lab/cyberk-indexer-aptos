@@ -11,14 +11,13 @@ import { ProfileDropdown } from '@/components/profile-dropdown'
 import { ThemeSwitch } from '@/components/theme-switch'
 
 export default function Project() {
-  const [inputAddress, setInputAddress] = useState('')
+  const [inputAddress, setInputAddress] = useState('0xc4c89099f912a7df3e9244a65c588cfd3df90ce7c25341d15272955c0e927a45')
 
   const [targetAddress, setTargetAddress] = useState('')
   const { data: aptosModules } = useAptosModules(Network.TESTNET, targetAddress)
   // const events = useMemo(() => extractEventsFromAptosModules(aptosModules || []), [aptosModules])
 
   const startIndexing = useCallback(() => {
-    console.log('startIndexing=', inputAddress)
     setTargetAddress(inputAddress)
   }, [inputAddress])
 

@@ -2,15 +2,11 @@
 export const NODE_SIZES = {
   EVENT: {
     WIDTH: 320,
-    HEADER_HEIGHT: 60,
-    ROW_HEIGHT: 48,
-    MIN_HEIGHT: 108,
+    HEIGHT: 60, // Fixed height for event name only
   },
   TABLE: {
     WIDTH: 350,
-    HEADER_HEIGHT: 60,
-    ROW_HEIGHT: 48,
-    MIN_HEIGHT: 108,
+    HEIGHT: 60, // Fixed height for table name only
   },
   STREAM: {
     WIDTH: 400,
@@ -21,10 +17,12 @@ export const NODE_SIZES = {
 // Layout spacing constants
 export const LAYOUT_SPACING = {
   COLUMN_GAP: 400, // Horizontal gap between different node types
-  ROW_GAP: 100,    // Vertical gap between nodes of the same type
+  ROW_GAP: 20,     // Vertical gap between events in single column
   MARGIN: 50,      // Margin from edges
   START_X: 50,     // Starting X position
   START_Y: 50,     // Starting Y position
+  BOX_PADDING: 40, // Padding inside event box
+  BOX_HEADER_HEIGHT: 80, // Height reserved for event box header
 } as const
 
 // Calculate node height based on content
@@ -42,14 +40,10 @@ export const calculateNodeHeight = (
     return 200 // Default fallback height
   }
   
-  // Type guard to check if the node has dynamic height properties
-  if ('HEADER_HEIGHT' in sizes && 'ROW_HEIGHT' in sizes && 'MIN_HEIGHT' in sizes) {
-    const calculatedHeight = Math.max(
-      sizes.HEADER_HEIGHT + (contentLength * sizes.ROW_HEIGHT),
-      sizes.MIN_HEIGHT
-    )
-    console.log(`Calculated dynamic height: ${calculatedHeight}`)
-    return calculatedHeight
+  // For EVENT and TABLE nodes with fixed height
+  if ((nodeType === 'EVENT' || nodeType === 'TABLE') && 'HEIGHT' in sizes) {
+    console.log(`Using fixed ${nodeType} height: ${sizes.HEIGHT}`)
+    return sizes.HEIGHT
   }
   
   // For nodes with fixed height (like STREAM)
@@ -68,10 +62,10 @@ export const testCalculateNodeHeight = () => {
   console.log('Testing calculateNodeHeight with all node types:')
   
   // Test EVENT node
-  console.log('EVENT node with 3 columns:', calculateNodeHeight('EVENT', 3))
+  console.log('EVENT node:', calculateNodeHeight('EVENT', 0))
   
   // Test TABLE node
-  console.log('TABLE node with 5 columns:', calculateNodeHeight('TABLE', 5))
+  console.log('TABLE node:', calculateNodeHeight('TABLE', 0))
   
   // Test STREAM node
   console.log('STREAM node:', calculateNodeHeight('STREAM', 0))
