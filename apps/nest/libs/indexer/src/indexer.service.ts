@@ -6,6 +6,7 @@ export class IndexerService {
   async create() {
     const PostgresDataSource = new DataSource({
       type: 'postgres',
+      // dummy connection
       url: 'postgresql://cyberk:npg_peWotEcH1LA9@ep-empty-snow-a1cudls3-pooler.ap-southeast-1.aws.neon.tech/indexer_1?sslmode=require',
     })
 
